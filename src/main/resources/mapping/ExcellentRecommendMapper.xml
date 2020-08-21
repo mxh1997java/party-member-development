@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.ExcellentRecommendMapper">
+
+    <!--共用查询字段-->
+    <sql id="ExcellentRecommendColumnList">
+        recordId,
+        applicant,
+        sex,
+        studentId,
+        className,
+        currentPosition,
+        birthDate,
+        joinGroupDate,
+        applyJoinPartyDate,
+        mainPerformance,
+        mainRewardsPunishments,
+        yearValue,
+        monthValue,
+        dayValue,
+        comrade,
+        leagueBranchName,
+        leagueSecretary,
+        signatureTime,
+        participateNum,
+        arrivalsNum,
+        agreeNum,
+        opposeNum,
+        effectiveNum,
+        invalidNum,
+        reviewOpinion,
+        reviewOpinionSignature,
+        reviewOpinionSignatureTime,
+        recordOpinion,
+        schoolLeagueCommitteeSeal,
+        secretarySignature,
+        recordOpinionSignatureTime,
+        createTime,
+        modifyTime,
+        modifier,
+        creator
+    </sql>
+
+    <select id="findOneByCondition" parameterType="cn.sus.edu.partymemberdevelopment.entity.ExcellentRecommend"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.ExcellentRecommend" >
+        select
+        <include refid="ExcellentRecommendColumnList"></include>
+        from D_EXCELLENTRECOMMEND
+        <where>
+            <if test="recordId != null" >
+                and recordId=#{recordId}
+            </if>
+            <if test="applicantName != null" >
+                and applicantName like concat(#{applicantName}, '%')
+            </if>
+            <if test="studentId != studentId" >
+                and studentId=#{studentId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllByCondition" parameterType="java.util.Map"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.ExcellentRecommend" >
+        select
+        <include refid="ExcellentRecommendColumnList"></include>
+        from D_EXCELLENTRECOMMEND
+        <where>
+            <if test="recordId != null" >
+                and recordId=#{recordId}
+            </if>
+            <if test="applicantName != null" >
+                and applicantName like concat(#{applicantName}, '%')
+            </if>
+            <if test="studentId != studentId" >
+                and studentId=#{studentId}
+            </if>
+            <if test="beginTime != null">
+                and createTime >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= createTime
+            </if>
+
+            <if test="joinGroupBeginTime != null">
+                and joinGroupDate >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="joinGroupEndTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= joinGroupDate
+            </if>
+
+            <if test="applyBeginTime != null">
+                and applyJoinPartyDate >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="applyEndTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= applyJoinPartyDate
+            </if>
+        </where>
+    </select>
+
+
+    <!--useGeneratedKeys="true" keyProperty="userId"-->
+    <insert id="insertOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.ExcellentRecommend">
+        insert into D_EXCELLENTRECOMMEND (
+        recordId,
+        applicant,
+        sex,
+        studentId,
+        className,
+        currentPosition,
+        birthDate,
+        joinGroupDate,
+        applyJoinPartyDate,
+        mainPerformance,
+        mainRewardsPunishments,
+        yearValue,
+        monthValue,
+        dayValue,
+        comrade,
+        leagueBranchName,
+        leagueSecretary,
+        signatureTime,
+        participateNum,
+        arrivalsNum,
+        agreeNum,
+        opposeNum,
+        effectiveNum,
+        invalidNum,
+        reviewOpinion,
+        reviewOpinionSignature,
+        reviewOpinionSignatureTime,
+        recordOpinion,
+        schoolLeagueCommitteeSeal,
+        secretarySignature,
+        recordOpinionSignatureTime,
+        createTime,
+        creator
+        )
+        values (
+        #{recordId},
+        #{applicant},
+        #{sex},
+        #{studentId},
+        #{className},
+        #{currentPosition},
+        #{birthDate},
+        #{joinGroupDate},
+        #{applyJoinPartyDate},
+        #{mainPerformance},
+        #{mainRewardsPunishments},
+        #{yearValue},
+        #{monthValue},
+        #{dayValue},
+        #{comrade},
+        #{leagueBranchName},
+        #{leagueSecretary},
+        #{signatureTime},
+        #{participateNum},
+        #{arrivalsNum},
+        #{agreeNum},
+        #{opposeNum},
+        #{effectiveNum},
+        #{invalidNum},
+        #{reviewOpinion},
+        #{reviewOpinionSignature},
+        #{reviewOpinionSignatureTime},
+        #{recordOpinion},
+        #{schoolLeagueCommitteeSeal},
+        #{secretarySignature},
+        #{recordOpinionSignatureTime},
+        #{createTime},
+        #{creator}
+        )
+    </insert>
+
+
+    <update id="updateOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.ExcellentRecommend">
+        update D_EXCELLENTRECOMMEND
+        <set>
+            <if test="mainPerformance != null">
+                mainPerformance=#{mainPerformance},
+            </if>
+            <if test="mainRewardsPunishments != null">
+                mainRewardsPunishments=#{mainRewardsPunishments},
+            </if>
+
+            <if test="yearValue != null">
+                yearValue=#{yearValue},
+            </if>
+            <if test="monthValue != null">
+                monthValue=#{monthValue},
+            </if>
+            <if test="dayValue != null">
+                dayValue=#{dayValue},
+            </if>
+
+            <if test="comrade != null">
+                comrade=#{comrade},
+            </if>
+            <if test="leagueBranchName != null">
+                leagueBranchName=#{leagueBranchName},
+            </if>
+            <if test="leagueSecretary != null">
+                leagueSecretary=#{leagueSecretary},
+            </if>
+            <if test="participateNum != null">
+                participateNum=#{participateNum},
+            </if>
+            <if test="arrivalsNum != null">
+                arrivalsNum=#{arrivalsNum},
+            </if>
+            <if test="agreeNum != null">
+                agreeNum=#{agreeNum},
+            </if>
+            <if test="opposeNum != null">
+                opposeNum=#{opposeNum},
+            </if>
+            <if test="effectiveNum != null">
+                effectiveNum=#{effectiveNum},
+            </if>
+            <if test="invalidNum != null">
+                invalidNum=#{invalidNum},
+            </if>
+            <if test="reviewOpinion != null">
+                reviewOpinion=#{reviewOpinion},
+            </if>
+            <if test="recordOpinion != null">
+                recordOpinion=#{recordOpinion},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime=#{modifyTime},
+            </if>
+            <if test="modifier != null">
+                modifier=#{modifier},
+            </if>
+        </set>
+        where recordId=#{recordId}
+    </update>
+
+    <delete id="deleteOne"  parameterType="java.lang.Long">
+        delete D_EXCELLENTRECOMMEND where recordId=#{recordId}
+    </delete>
+
+</mapper>

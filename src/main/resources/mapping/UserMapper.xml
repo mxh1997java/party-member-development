@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.UserMapper">
+
+    <!--共用查询字段-->
+    <sql id="UserColumnList">
+        USER_ID,
+        USER_NAME,
+        password,
+        USER_SEX,
+        USER_AGE,
+        USER_MAIL,
+        USER_MOBILE,
+        FIRST_LEVEL_ROLE,
+        CREATE_TIME,
+        MODIFY_TIME,
+        modifier,
+        creator
+    </sql>
+
+    <!--结果映射-->
+    <resultMap id="UserResultMap" type="cn.sus.edu.partymemberdevelopment.entity.User">
+        <id column="USER_ID" property="userId" jdbcType="INTEGER"/>
+        <result column="USER_NAME" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="USER_SEX" property="userSex" jdbcType="CHAR"/>
+        <result column="USER_AGE" property="userAge" jdbcType="INTEGER"/>
+        <result column="USER_MOBILE" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="USER_MAIL" property="mail" jdbcType="VARCHAR"/>
+        <result column="FIRST_LEVEL_ROLE" property="firstLevelRole" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="DATE"/>
+        <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findOneByCondition" parameterType="cn.sus.edu.partymemberdevelopment.entity.User"
+            resultMap="UserResultMap" >
+        select
+        <include refid="UserColumnList"></include>
+        from D_USER
+        <where>
+            <if test="userId != null" >
+                and USER_ID=#{userId}
+            </if>
+            <if test="username != null" >
+                and USER_NAME like concat(#{username}, '%')
+            </if>
+            <if test="phoneNumber != null" >
+                and USER_MOBILE=#{phoneNumber}
+            </if>
+        </where>
+    </select>
+
+    <!--resultType="cn.sus.edu.partymemberdevelopment.entity.User"-->
+    <select id="findAllByCondition" parameterType="java.util.Map"
+        resultMap="UserResultMap">
+        select
+        <include refid="UserColumnList"></include>
+        from D_USER
+        <where>
+            <if test="userId != null" >
+                and USER_ID=#{userId}
+            </if>
+            <if test="username != null" >
+                and USER_NAME like concat(#{username}, '%')
+            </if>
+            <if test="beginTime != null">
+                and CREATE_TIME >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= CREATE_TIME
+            </if>
+        </where>
+    </select>
+
+
+    <!--useGeneratedKeys="true" keyProperty="userId"-->
+    <insert id="addUser" parameterType="cn.sus.edu.partymemberdevelopment.entity.User"
+            >
+        insert into D_USER (USER_ID, USER_NAME,PASSWORD,USER_SEX,USER_AGE,USER_MAIL,USER_MOBILE,FIRST_LEVEL_ROLE,CREATOR,CREATE_TIME)
+        values (#{userId},
+            #{username},
+            #{password},
+            #{userSex},
+            #{userAge},
+            #{mail},
+            #{phoneNumber},
+            #{firstLevelRole},
+            #{creator},
+            #{createTime})
+    </insert>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into D_USER(USER_ID, USER_NAME,PASSWORD,USER_SEX,USER_AGE,USER_MAIL,USER_MOBILE,FIRST_LEVEL_ROLE,CREATOR,CREATE_TIME)
+        <foreach collection ="list" item="role" index= "index" separator="union all">
+            select
+            #{role.userId},
+            #{role.username},
+            #{role.password},
+            #{role.userSex},
+            #{role.userAge},
+            #{role.mail},
+            #{role.phoneNumber},
+            #{role.firstLevelRole},
+            #{role.creator},
+            #{role.createTime}
+            from dual
+        </foreach >
+    </insert>
+
+
+    <update id="updateUserById" parameterType="cn.sus.edu.partymemberdevelopment.entity.User">
+        update D_USER
+        <!-- 使用trim进行拼接 -->
+        <!--<trim prefix="set" suffix="where USER_ID=#{userId}" suffixOverrides="," >-->
+            <!--<if test="username != null">-->
+                <!--USER_NAME=#{username},-->
+            <!--</if>-->
+            <!--<if test="password != null">-->
+                <!--PASSWORD=#{password},-->
+            <!--</if>-->
+            <!--<if test="userSex != null">-->
+                <!--USER_SEX=#{userSex},-->
+            <!--</if>-->
+            <!--<if test="userAge != null">-->
+                <!--USER_AGE=#{userAge},-->
+            <!--</if>-->
+            <!--<if test="firstLevelRole != null" >-->
+                <!--FIRST_LEVEL_ROLE=#{firstLevelRole},-->
+            <!--</if>-->
+            <!--<if test="phoneNumber != null">-->
+                <!--USER_MOBILE=#{phoneNumber},-->
+            <!--</if>-->
+            <!--<if test="mail != null">-->
+                <!--USER_MAIL=#{mail},-->
+            <!--</if>-->
+            <!--<if test="modifyTime != null">-->
+                <!--MODIFY_TIME=#{modifyTime},-->
+            <!--</if>-->
+            <!--<if test="modifier != null" >-->
+                <!--modifier=#{modifier},-->
+            <!--</if>-->
+        <!--</trim>-->
+
+        <set>
+            <if test="username != null">
+                USER_NAME=#{username},
+            </if>
+            <if test="password != null">
+                PASSWORD=#{password},
+            </if>
+            <if test="userSex != null">
+                USER_SEX=#{userSex},
+            </if>
+            <if test="userAge != null">
+                USER_AGE=#{userAge},
+            </if>
+            <if test="firstLevelRole != null" >
+                FIRST_LEVEL_ROLE=#{firstLevelRole},
+            </if>
+            <if test="phoneNumber != null">
+                USER_MOBILE=#{phoneNumber},
+            </if>
+            <if test="mail != null">
+                USER_MAIL=#{mail},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME=#{modifyTime},
+            </if>
+            <if test="modifier != null" >
+                modifier=#{modifier},
+            </if>
+        </set>
+        where USER_ID=#{userId}
+    </update>
+
+    <delete id="deleteUserById"  parameterType="java.lang.Long">
+        delete D_USER where USER_ID=#{userId}
+    </delete>
+
+</mapper>

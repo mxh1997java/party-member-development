@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.StudentMapper">
+
+    <!--共用查询字段-->
+    <sql id="StudentColumnList">
+        studentId,
+        userId,
+        studentName,
+        hometown,
+        departmentPosition,
+        jobNumber,
+        bornDate,
+        joinGroupDate,
+        applyJoinPartyDate,
+        birthday,
+        phoneNumber,
+        joinJobDate,
+        resume,
+        familyMember,
+        joinPartyDate,
+        affiliatedBranch,
+        partyPosition,
+        createTime,
+        modifyTime,
+        modifier,
+        creator
+    </sql>
+
+    <!--结果映射-->
+    <resultMap id="StudentResultMap" type="cn.sus.edu.partymemberdevelopment.entity.Student">
+        <id column="studentId" property="studentId" jdbcType="INTEGER"/>
+        <result column="userId" property="userId" jdbcType="INTEGER"/>
+        <result column="studentName" property="studentName" jdbcType="VARCHAR"/>
+        <result column="hometown" property="hometown" jdbcType="VARCHAR"/>
+        <result column="departmentPosition" property="departmentPosition" jdbcType="VARCHAR"/>
+        <result column="jobNumber" property="jobNumber" jdbcType="VARCHAR"/>
+        <result column="bornDate" property="bornDate" jdbcType="DATE"/>
+        <result column="joinGroupDate" property="joinGroupDate" jdbcType="DATE"/>
+        <result column="applyJoinPartyDate" property="applyJoinPartyDate" jdbcType="DATE"/>
+        <result column="birthday" property="birthday" jdbcType="VARCHAR"/>
+        <result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="joinJobDate" property="joinJobDate" jdbcType="DATE"/>
+        <result column="resume" property="resume" jdbcType="VARCHAR"/>
+        <result column="familyMember" property="familyMember" jdbcType="VARCHAR"/>
+        <result column="joinPartyDate" property="joinPartyDate" jdbcType="DATE"/>
+        <result column="affiliatedBranch" property="affiliatedBranch" jdbcType="VARCHAR"/>
+        <result column="partyPosition" property="partyPosition" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="DATE"/>
+        <result column="modifyTime" property="modifyTime" jdbcType="DATE"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findOneByCondition" parameterType="java.util.Map"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.Student" >
+        select
+        <include refid="StudentColumnList"></include>
+        from D_STUDENT
+        <where>
+            <if test="userId != null" >
+                and userId=#{userId}
+            </if>
+            <if test="studentId != null" >
+                and studentId=#{studentId}
+            </if>
+            <if test="studentName != null" >
+                and studentName like concat(#{studentName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllByCondition" parameterType="java.util.Map"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.Student" >
+        select
+        <include refid="StudentColumnList"></include>
+        from D_STUDENT
+        <where>
+            <if test="userId != null" >
+                and userId=#{userId}
+            </if>
+            <if test="studentId != null" >
+                and studentId=#{studentId}
+            </if>
+            <if test="studentName != null" >
+                and studentName=#{studentName}
+            </if>
+            <if test="beginTime != null">
+                and createTime >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= createTime
+            </if>
+        </where>
+    </select>
+
+
+    <!--useGeneratedKeys="true" keyProperty="userId"-->
+    <insert id="addStudent" parameterType="cn.sus.edu.partymemberdevelopment.entity.Student">
+        insert into D_STUDENT(studentId,userId,studentName,
+        hometown,departmentPosition,jobNumber,bornDate,joinGroupDate,applyJoinPartyDate,
+        birthday,phoneNumber,joinJobDate,resume,familyMember,joinPartyDate,affiliatedBranch,partyPosition,
+        creator,createTime)
+        values (#{studentId},#{userId},#{studentName},
+        #{hometown},#{departmentPosition},#{jobNumber},#{bornDate},#{joinGroupDate},#{applyJoinPartyDate},
+        #{birthday},#{phoneNumber},#{joinJobDate},#{resume},#{familyMember},#{joinPartyDate},#{affiliatedBranch},
+        #{partyPosition},
+        #{creator},#{createTime})
+    </insert>
+
+
+    <update id="updateStudentById" parameterType="cn.sus.edu.partymemberdevelopment.entity.Student">
+        update D_STUDENT
+        <set>
+            <if test="hometown != null">
+                hometown=#{hometown},
+            </if>
+            <if test="departmentPosition != null">
+                departmentPosition=#{departmentPosition},
+            </if>
+            <if test="jobNumber != null">
+                jobNumber=#{jobNumber},
+            </if>
+            <if test="bornDate != null">
+                bornDate=#{bornDate},
+            </if>
+            <if test="joinGroupDate != null">
+                joinGroupDate=#{joinGroupDate},
+            </if>
+            <if test="applyJoinPartyDate != null">
+                applyJoinPartyDate=#{applyJoinPartyDate},
+            </if>
+            <if test="birthday != null">
+                birthday=#{birthday},
+            </if>
+            <if test="phoneNumber != null">
+                phoneNumber=#{phoneNumber},
+            </if>
+
+            <if test="joinJobDate != null">
+                joinJobDate=#{joinJobDate},
+            </if>
+            <if test="resume != null">
+                resume=#{resume},
+            </if>
+            <if test="familyMember != null">
+                familyMember=#{familyMember},
+            </if>
+
+            <if test="joinPartyDate != null">
+                joinPartyDate=#{joinPartyDate},
+            </if>
+            <if test="affiliatedBranch != null">
+                affiliatedBranch=#{affiliatedBranch},
+            </if>
+            <if test="partyPosition != null">
+                familyMember=#{partyPosition},
+            </if>
+
+            <if test="modifier != null">
+                modifier=#{modifier},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime=#{modifyTime},
+            </if>
+        </set>
+        where studentId=#{studentId}
+    </update>
+
+    <delete id="deleteStudentById"  parameterType="java.lang.Long">
+        delete D_STUDENT where studentId=#{studentId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.PartyBranchCharHistoryMapper">
+
+    <!--共用查询字段-->
+    <sql id="PartyBranchCharHistoryColumnList">
+        recordId,
+        partyBranchName,
+        applicantName,
+        sex,
+        nation,
+        hometown,
+        department,
+        wordId,
+        birthDate,
+        joinGroupDate,
+        applyJoinPartyDate,
+        talkTime,
+        talkLocation,
+        talkRecord,
+        talker,
+        unitPosition,
+        createTime,
+        modifyTime,
+        modifier,
+        creator
+    </sql>
+
+    <select id="findOneByCondition" parameterType="cn.sus.edu.partymemberdevelopment.entity.PartyBranchCharHistory"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.PartyBranchCharHistory" >
+        select
+        <include refid="PartyBranchCharHistoryColumnList"></include>
+        from D_PARTYBRANCHCHARHISTORY
+        <where>
+            <if test="recordId != null" >
+                and recordId=#{recordId}
+            </if>
+            <if test="applicantName != null" >
+                and applicantName like concat(#{applicantName}, '%')
+            </if>
+            <if test="wordId != null" >
+                and wordId=#{wordId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllByCondition" parameterType="java.util.Map"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.PartyBranchCharHistory" >
+        select
+        <include refid="PartyBranchCharHistoryColumnList"></include>
+        from D_PARTYBRANCHCHARHISTORY
+        <where>
+            <if test="recordId != null" >
+                and recordId=#{recordId}
+            </if>
+            <if test="applicantName != null" >
+                and applicantName like concat(#{applicantName}, '%')
+            </if>
+            <if test="wordId != null" >
+                and wordId=#{wordId}
+            </if>
+            <if test="beginTime != null">
+                and createTime >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= createTime
+            </if>
+        </where>
+    </select>
+
+
+    <!--useGeneratedKeys="true" keyProperty="userId"-->
+    <insert id="insertOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.PartyBranchCharHistory">
+        insert into D_PARTYBRANCHCHARHISTORY (
+        recordId,
+        partyBranchName,
+        applicantName,
+        sex,
+        nation,
+        hometown,
+        department,
+        wordId,
+        birthDate,
+        joinGroupDate,
+        applyJoinPartyDate,
+        talkTime,
+        talkLocation,
+        talkRecord,
+        talker,
+        unitPosition,
+        createTime,
+        creator
+        )
+        values (
+        #{recordId},
+        #{partyBranchName},
+        #{applicantName},
+        #{sex},
+        #{nation},
+        #{hometown},
+        #{department},
+        #{wordId},
+        #{birthDate},
+        #{joinGroupDate},
+        #{applyJoinPartyDate},
+        #{talkTime},
+        #{talkLocation},
+        #{talkRecord},
+        #{talker},
+        #{unitPosition},
+        #{createTime},
+        #{creator}
+        )
+    </insert>
+
+
+    <update id="updateOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.PartyBranchCharHistory">
+        update D_PARTYBRANCHCHARHISTORY
+        <set>
+            <if test="partyBranchName != null">
+                partyBranchName=#{partyBranchName},
+            </if>
+            <if test="applicantName != null">
+                applicantName=#{applicantName},
+            </if>
+            <if test="sex != null">
+                sex=#{sex},
+            </if>
+            <if test="nation != null">
+                nation=#{nation},
+            </if>
+            <if test="hometown != null">
+                hometown=#{hometown},
+            </if>
+            <if test="department != null">
+                department=#{department},
+            </if>
+            <if test="wordId != null">
+                wordId=#{wordId},
+            </if>
+            <if test="birthDate != null">
+                birthDate=#{birthDate},
+            </if>
+            <if test="joinGroupDate != null">
+                joinGroupDate=#{joinGroupDate},
+            </if>
+            <if test="applyJoinPartyDate != null">
+                applyJoinPartyDate=#{applyJoinPartyDate},
+            </if>
+            <if test="talkTime != null">
+                talkTime=#{talkTime},
+            </if>
+            <if test="talkLocation != null">
+                talkLocation=#{talkLocation},
+            </if>
+            <if test="talkRecord != null">
+                talkRecord=#{talkRecord},
+            </if>
+            <if test="talker != null">
+                talker=#{talker},
+            </if>
+            <if test="unitPosition != null">
+                unitPosition=#{unitPosition},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime=#{modifyTime},
+            </if>
+            <if test="modifier != null">
+                modifier=#{modifier},
+            </if>
+        </set>
+        where recordId=#{recordId}
+    </update>
+
+    <delete id="deleteOne"  parameterType="java.lang.Long">
+        delete D_PARTYBRANCHCHARHISTORY where recordId=#{recordId}
+    </delete>
+
+</mapper>

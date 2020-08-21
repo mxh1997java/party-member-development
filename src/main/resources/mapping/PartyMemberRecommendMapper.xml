@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.PartyMemberRecommendMapper">
+
+    <!--共用查询字段-->
+    <sql id="PartyMemberRecommendColumnList">
+        recordId,
+        applicant,
+        sex,
+        nation,
+        studentId,
+        department,
+        currentPosition,
+        birthDate,
+        applyJoinPartyDate,
+        mainPerformance,
+        mainRewardsPunishments,
+        recommendedSituation,
+        partyBranchName,
+        partyBranchSecretarySignature,
+        signatureTime,
+        createTime,
+        modifyTime,
+        modifier,
+        creator
+    </sql>
+
+    <select id="findOneByCondition" parameterType="cn.sus.edu.partymemberdevelopment.entity.PartyMemberRecommend"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.PartyMemberRecommend" >
+        select
+        <include refid="PartyMemberRecommendColumnList"></include>
+        from D_PARTYMEMBERRECOMMEND
+        <where>
+            <if test="recordId != null" >
+                and recordId=#{recordId}
+            </if>
+            <if test="applicant != null" >
+                and applicant like concat(#{applicant}, '%')
+            </if>
+            <if test="studentId != studentId" >
+                and studentId=#{studentId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllByCondition" parameterType="java.util.Map"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.PartyMemberRecommend" >
+        select
+        <include refid="PartyMemberRecommendColumnList"></include>
+        from D_EXCELLENTRECOMMEND
+        <where>
+            <if test="recordId != null" >
+                and recordId=#{recordId}
+            </if>
+            <if test="applicant != null" >
+                and applicant like concat(#{applicant}, '%')
+            </if>
+            <if test="studentId != studentId" >
+                and studentId=#{studentId}
+            </if>
+            <if test="beginTime != null">
+                and createTime >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= createTime
+            </if>
+            <if test="applyBeginTime != null">
+                and applyJoinPartyDate >= to_date(#{applyBeginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="applyEndTime != null">
+                and to_date(#{applyEndTime}, 'yyyy-MM-dd hh24:mi:ss') >= applyJoinPartyDate
+            </if>
+        </where>
+    </select>
+
+
+    <!--useGeneratedKeys="true" keyProperty="userId"-->
+    <insert id="insertOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.PartyMemberRecommend">
+        insert into D_PARTYMEMBERRECOMMEND (
+        recordId,
+        applicant,
+        sex,
+        nation,
+        studentId,
+        department,
+        currentPosition,
+        birthDate,
+        applyJoinPartyDate,
+        mainPerformance,
+        mainRewardsPunishments,
+        recommendedSituation,
+        partyBranchName,
+        partyBranchSecretarySignature,
+        signatureTime,
+        createTime,
+        creator
+        )
+        values (
+        #{recordId},
+        #{applicant},
+        #{sex},
+        #{nation},
+        #{studentId},
+        #{department},
+        #{currentPosition},
+        #{birthDate},
+        #{applyJoinPartyDate},
+        #{mainPerformance},
+        #{mainRewardsPunishments},
+        #{recommendedSituation},
+        #{partyBranchName},
+        #{partyBranchSecretarySignature},
+        #{signatureTime},
+        #{createTime},
+        #{creator}
+        )
+    </insert>
+
+
+    <update id="updateOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.PartyMemberRecommend">
+        update D_PARTYMEMBERRECOMMEND
+        <set>
+            <if test="mainPerformance != null">
+                mainPerformance=#{mainPerformance},
+            </if>
+            <if test="mainRewardsPunishments != null">
+                mainRewardsPunishments=#{mainRewardsPunishments},
+            </if>
+
+            <if test="recommendedSituation != null">
+                recommendedSituation=#{recommendedSituation},
+            </if>
+            <if test="partyBranchName != null">
+                partyBranchName=#{partyBranchName},
+            </if>
+            <if test="partyBranchSecretarySignature != null">
+                partyBranchSecretarySignature=#{partyBranchSecretarySignature},
+            </if>
+
+            <if test="signatureTime != null">
+                signatureTime=#{signatureTime},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime=#{modifyTime},
+            </if>
+            <if test="modifier != null">
+                modifier=#{modifier},
+            </if>
+        </set>
+        where recordId=#{recordId}
+    </update>
+
+    <delete id="deleteOne"  parameterType="java.lang.Long">
+        delete D_PARTYMEMBERRECOMMEND where recordId=#{recordId}
+    </delete>
+
+</mapper>

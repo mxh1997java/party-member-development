@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.UserRoleMapper">
+
+    <!--共用查询字段-->
+    <sql id="RoleColumnList">
+        roleId,
+        roleName,
+        ROLE_URL,
+        ROLE_CODE,
+        description,
+        createTime,
+        modifyTime,
+        modifier,
+        creator
+    </sql>
+
+    <!--结果映射-->
+    <resultMap id="RoleResultMap" type="cn.sus.edu.partymemberdevelopment.entity.UserRole">
+        <id column="roleId" property="roleId" jdbcType="INTEGER"/>
+        <result column="roleName" property="roleName" jdbcType="VARCHAR"/>
+        <result column="ROLE_URL" property="url" jdbcType="VARCHAR"/>
+        <result column="ROLE_CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="DATE"/>
+        <result column="modifyTime" property="modifyTime" jdbcType="DATE"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--resultType="cn.sus.edu.partymemberdevelopment.entity.UserRole"-->
+    <select id="findOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.UserRole"
+            resultMap="RoleResultMap">
+        select
+        <include refid="RoleColumnList"></include>
+        from D_USER_ROLE
+        <where>
+            <if test="roleId != null" >
+                and roleId=#{roleId}
+            </if>
+            <if test="roleName != null" >
+                and roleName like concat(#{roleName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findAll" parameterType="java.util.Map"
+            resultMap="RoleResultMap" >
+        select
+        <include refid="RoleColumnList"></include>
+        from D_USER_ROLE
+        <where>
+            <if test="roleId != null" >
+                and roleId=#{roleId}
+            </if>
+            <if test="roleName != null" >
+                and roleName=#{roleName}
+            </if>
+            <if test="beginTime != null">
+                and createTime >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= createTime
+            </if>
+            <if test="creator != null">
+                and creator=#{creator}
+            </if>
+            <if test="modifier != null" >
+                and modifier=#{modifier}
+            </if>
+        </where>
+    </select>
+
+    <!--useGeneratedKeys="true" keyProperty="roleId"-->
+    <insert id="addUserRole" parameterType="cn.sus.edu.partymemberdevelopment.entity.UserRole">
+        insert into D_USER_ROLE (roleId, roleName,role_url,role_code,description,createTime,creator)
+        values (#{roleId}, #{roleName},#{url},#{code},#{description},#{createTime},#{creator})
+    </insert>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into D_USER_ROLE(roleId, roleName,role_url,role_code,description,creator,createTime)
+        <foreach collection ="list" item="role" index= "index" separator="union all">
+            select
+            #{role.roleId},
+            #{role.roleName},
+            #{role.url},
+            #{role.code},
+            #{role.description},
+            #{role.creator},
+            #{role.createTime}
+            from dual
+        </foreach >
+    </insert>
+
+
+    <update id="updateUserRoleById" parameterType="cn.sus.edu.partymemberdevelopment.entity.UserRole">
+        update D_USER_ROLE
+        <set>
+            <if test="roleName != null">
+                roleName=#{roleName},
+            </if>
+            <if test="url != null">
+                ROLE_URL=#{url},
+            </if>
+            <if test="code != null">
+                ROLE_CODE=#{code},
+            </if>
+            <if test="description != null">
+                description=#{description},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime=#{modifyTime},
+            </if>
+            <if test="modifier != null" >
+                modifier=#{modifier}
+            </if>
+        </set>
+        where roleId=#{roleId}
+    </update>
+
+    <delete id="deleteUserRoleById"  parameterType="java.lang.Long">
+        delete D_USER_ROLE where roleId=#{roleId}
+    </delete>
+
+</mapper>

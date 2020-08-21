@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.TeacherMapper">
+
+    <!--共用查询字段-->
+    <sql id="TeacherColumnList">
+        USER_ID,
+        TEACHER_ID,
+        TEACHER_NAME,
+        COLLEGEPARTYBRANCHSECRETARY,
+        COUNSELOR,
+        COLLEGEPARTYCOMMITTEEORGANIZER,
+        CP_TOTALBRANCHORGANIZER,
+        CD_UNDERPARTYBRANCHORGANIZER,
+        COLLEGEYOUTHLEAGUECOMMITTEE,
+        SCHOOLYOUTHLEAGUECOMMITTEE,
+        PC_ORGANIZATIONDEPARTMENT,
+        COLLEGEPARTYSECRETARY,
+        CP_COMMITTEEVICESECRETARY,
+        CP_TOTALBRANCHSECRETARY,
+        CP_TOTALBRANCHVICESECRETARY,
+        CREATE_TIME,
+        MODIFY_TIME,
+        MODIFIER,
+        CREATOR
+    </sql>
+
+    <!--结果映射-->
+    <resultMap id="TeacherResultMap" type="cn.sus.edu.partymemberdevelopment.entity.Teacher">
+        <id column="USER_ID" property="userId" jdbcType="INTEGER"/>
+        <result column="TEACHER_ID" property="teacherId" jdbcType="INTEGER"/>
+        <result column="TEACHER_NAME" property="teacherName" jdbcType="VARCHAR"/>
+        <!--<result column="teacherSex" property="teacherSex" jdbcType="VARCHAR"/>-->
+        <!--<result column="teacherAge" property="teacherAge" jdbcType="VARCHAR"/>-->
+        <!--学院党支部书记-->
+        <result column="collegePartyBranchSecretary" property="collegePartyBranchSecretary" jdbcType="CHAR"/>
+        <!--辅导员-->
+        <result column="counselor" property="counselor" jdbcType="CHAR"/>
+        <!--学院党委组织员-->
+        <result column="collegePartyCommitteeOrganizer" property="collegePartyCommitteeOrganizer" jdbcType="CHAR"/>
+        <!--学院党总支组织员-->
+        <result column="CP_TOTALBRANCHORGANIZER" property="collegePartyTotalBranchOrganizer" jdbcType="CHAR"/>
+        <!--学院直属党支组织员-->
+        <result column="CD_UNDERPARTYBRANCHORGANIZER" property="collegeDirectlyUnderPartyBranchOrganizer" jdbcType="CHAR"/>
+        <!--学院团委-->
+        <result column="COLLEGEYOUTHLEAGUECOMMITTEE" property="collegeYouthLeagueCommittee" jdbcType="CHAR"/>
+        <!--学校团委-->
+        <result column="SCHOOLYOUTHLEAGUECOMMITTEE" property="schoolYouthLeagueCommittee" jdbcType="CHAR"/>
+        <!--党委组织部-->
+        <result column="PC_ORGANIZATIONDEPARTMENT" property="partyCommitteeOrganizationDepartment" jdbcType="CHAR"/>
+        <!--学院党委书记-->
+        <result column="COLLEGEPARTYSECRETARY" property="collegePartySecretary" jdbcType="CHAR"/>
+        <!--学院党委副书记-->
+        <result column="CP_COMMITTEEVICESECRETARY" property="collegePartyCommitteeViceSecretary" jdbcType="CHAR"/>
+        <!--学院党总支书记-->
+        <result column="CP_TOTALBRANCHSECRETARY" property="collegePartyTotalBranchSecretary" jdbcType="CHAR"/>
+        <!--学院党总支副书记-->
+        <result column="CP_TOTALBRANCHVICESECRETARY" property="collegePartyTotalBranchViceSecretary" jdbcType="CHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="DATE"/>
+        <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findOneByCondition" parameterType="cn.sus.edu.partymemberdevelopment.entity.Teacher"
+            resultMap="TeacherResultMap" >
+        select
+        <include refid="TeacherColumnList"></include>
+        from D_USER_TO_TEACHER
+        <where>
+            <if test="userId != null" >
+                and USER_ID=#{userId}
+            </if>
+            <if test="teacherId != null" >
+                and TEACHER_ID=#{teacherId}
+            </if>
+            <if test="teacherName != null" >
+                and TEACHER_NAME=#{teacherName}
+            </if>
+            <if test="collegePartyBranchSecretary != null">
+                and COLLEGEPARTYBRANCHSECRETARY=#{collegePartyBranchSecretary}
+            </if>
+            <if test="counselor != null">
+                and COUNSELOR=#{counselor}
+            </if>
+            <if test="collegePartyCommitteeOrganizer != null">
+                and COLLEGEPARTYCOMMITTEEORGANIZER=#{collegePartyCommitteeOrganizer}
+            </if>
+            <if test="collegePartyTotalBranchOrganizer != null">
+                and CP_TOTALBRANCHORGANIZER=#{collegePartyTotalBranchOrganizer}
+            </if>
+            <if test="collegeDirectlyUnderPartyBranchOrganizer != null">
+                and CD_UNDERPARTYBRANCHORGANIZER=#{collegeDirectlyUnderPartyBranchOrganizer}
+            </if>
+            <if test="collegeYouthLeagueCommittee != null">
+                and COLLEGEYOUTHLEAGUECOMMITTEE=#{collegeYouthLeagueCommittee}
+            </if>
+            <if test="schoolYouthLeagueCommittee != null">
+                and SCHOOLYOUTHLEAGUECOMMITTEE=#{schoolYouthLeagueCommittee}
+            </if>
+            <if test="partyCommitteeOrganizationDepartment != null">
+                and PC_ORGANIZATIONDEPARTMENT=#{partyCommitteeOrganizationDepartment}
+            </if>
+            <if test="collegePartySecretary != null">
+                and COLLEGEPARTYSECRETARY=#{collegePartySecretary},
+            </if>
+            <if test="collegePartyCommitteeViceSecretary != null">
+                and CP_COMMITTEEVICESECRETARY=#{collegePartyCommitteeViceSecretary}
+            </if>
+            <if test="collegePartyTotalBranchSecretary != null">
+                and CP_TOTALBRANCHSECRETARY=#{collegePartyTotalBranchSecretary},
+            </if>
+            <if test="collegePartyTotalBranchViceSecretary != null">
+                and CP_TOTALBRANCHVICESECRETARY=#{collegePartyTotalBranchViceSecretary},
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllByCondition" parameterType="java.util.Map"
+            resultMap="TeacherResultMap" >
+        select
+        <include refid="TeacherColumnList"></include>
+        from D_USER_TO_TEACHER
+        <where>
+            <if test="userId != null" >
+                and USER_ID=#{userId}
+            </if>
+            <if test="teacherId != null" >
+                and TEACHER_ID=#{teacherId}
+            </if>
+            <if test="teacherName != null" >
+                and TEACHER_NAME=#{teacherName}
+            </if>
+            <if test="beginTime != null">
+                and CREATE_TIME >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= CREATE_TIME
+            </if>
+            <if test="collegePartyBranchSecretary != null">
+                and COLLEGEPARTYBRANCHSECRETARY=#{collegePartyBranchSecretary}
+            </if>
+            <if test="counselor != null">
+                and COUNSELOR=#{counselor}
+            </if>
+            <if test="collegePartyCommitteeOrganizer != null">
+                and COLLEGEPARTYCOMMITTEEORGANIZER=#{collegePartyCommitteeOrganizer}
+            </if>
+            <if test="collegePartyTotalBranchOrganizer != null">
+                and CP_TOTALBRANCHORGANIZER=#{collegePartyTotalBranchOrganizer}
+            </if>
+            <if test="collegeDirectlyUnderPartyBranchOrganizer != null">
+                and CD_UNDERPARTYBRANCHORGANIZER=#{collegeDirectlyUnderPartyBranchOrganizer}
+            </if>
+            <if test="collegeYouthLeagueCommittee != null">
+                and COLLEGEYOUTHLEAGUECOMMITTEE=#{collegeYouthLeagueCommittee}
+            </if>
+            <if test="schoolYouthLeagueCommittee != null">
+                and SCHOOLYOUTHLEAGUECOMMITTEE=#{schoolYouthLeagueCommittee}
+            </if>
+            <if test="partyCommitteeOrganizationDepartment != null">
+                and PC_ORGANIZATIONDEPARTMENT=#{partyCommitteeOrganizationDepartment}
+            </if>
+            <if test="collegePartySecretary != null">
+                and COLLEGEPARTYSECRETARY=#{collegePartySecretary},
+            </if>
+            <if test="collegePartyCommitteeViceSecretary != null">
+                and CP_COMMITTEEVICESECRETARY=#{collegePartyCommitteeViceSecretary}
+            </if>
+            <if test="collegePartyTotalBranchSecretary != null">
+                and CP_TOTALBRANCHSECRETARY=#{collegePartyTotalBranchSecretary},
+            </if>
+            <if test="collegePartyTotalBranchViceSecretary != null">
+                and CP_TOTALBRANCHVICESECRETARY=#{collegePartyTotalBranchViceSecretary},
+            </if>
+        </where>
+    </select>
+
+
+    <!--useGeneratedKeys="true" keyProperty="userId"-->
+    <insert id="addTeacher" parameterType="cn.sus.edu.partymemberdevelopment.entity.Teacher">
+        insert into D_USER_TO_TEACHER (TEACHER_ID,TEACHER_NAME,USER_ID,CREATOR,CREATE_TIME)
+        values (#{teacherId},#{teacherName},#{userId},#{creator},#{createTime})
+    </insert>
+
+
+    <update id="updateTeacherById" parameterType="cn.sus.edu.partymemberdevelopment.entity.Teacher">
+        update D_USER_TO_TEACHER
+        <set>
+            <if test="teacherName != null">
+                TEACHER_NAME=#{teacherName},
+            </if>
+            <if test="userId != null">
+                USER_ID=#{userId},
+            </if>
+            <if test="collegePartyBranchSecretary != null">
+                COLLEGEPARTYBRANCHSECRETARY=#{collegePartyBranchSecretary},
+            </if>
+            <if test="counselor != null">
+                COUNSELOR=#{counselor},
+            </if>
+            <if test="collegePartyCommitteeOrganizer != null">
+                COLLEGEPARTYCOMMITTEEORGANIZER=#{collegePartyCommitteeOrganizer},
+            </if>
+            <if test="collegePartyTotalBranchOrganizer != null">
+                CP_TOTALBRANCHORGANIZER=#{collegePartyTotalBranchOrganizer},
+            </if>
+            <if test="collegeDirectlyUnderPartyBranchOrganizer != null">
+                CD_UNDERPARTYBRANCHORGANIZER=#{collegeDirectlyUnderPartyBranchOrganizer},
+            </if>
+            <if test="collegeYouthLeagueCommittee != null">
+                COLLEGEYOUTHLEAGUECOMMITTEE=#{collegeYouthLeagueCommittee},
+            </if>
+            <if test="schoolYouthLeagueCommittee != null">
+                SCHOOLYOUTHLEAGUECOMMITTEE=#{schoolYouthLeagueCommittee},
+            </if>
+            <if test="partyCommitteeOrganizationDepartment != null">
+                PC_ORGANIZATIONDEPARTMENT=#{partyCommitteeOrganizationDepartment},
+            </if>
+            <if test="collegePartySecretary != null">
+                COLLEGEPARTYSECRETARY=#{collegePartySecretary},
+            </if>
+            <if test="collegePartyCommitteeViceSecretary != null">
+                CP_COMMITTEEVICESECRETARY=#{collegePartyCommitteeViceSecretary},
+            </if>
+            <if test="collegePartyTotalBranchSecretary != null">
+                CP_TOTALBRANCHSECRETARY=#{collegePartyTotalBranchSecretary},
+            </if>
+            <if test="collegePartyTotalBranchViceSecretary != null">
+                CP_TOTALBRANCHVICESECRETARY=#{collegePartyTotalBranchViceSecretary},
+            </if>
+        </set>
+        where TEACHER_ID=#{teacherId}
+    </update>
+
+    <delete id="deleteTeacherById"  parameterType="java.lang.Long">
+        delete D_USER_TO_TEACHER where TEACHER_ID=#{teacherId}
+    </delete>
+
+</mapper>

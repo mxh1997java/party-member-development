@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sus.edu.partymemberdevelopment.mapper.ApplyRecordMapper">
+
+    <!--共用查询字段-->
+    <sql id="ApplyRecordColumnList">
+        applyId,
+        applicant,
+        applicantId,
+        fileUrl,
+        applyStatus,
+        createTime,
+        modifyTime,
+        modifier,
+        creator
+    </sql>
+
+    <!--结果映射-->
+    <resultMap id="ApplyRecordResultMap" type="cn.sus.edu.partymemberdevelopment.entity.ApplyRecord">
+        <id column="applyId" property="applyId" jdbcType="INTEGER"/>
+        <result column="applicant" property="applicant" jdbcType="VARCHAR"/>
+        <result column="applicantId" property="applicantId" jdbcType="INTEGER"/>
+        <result column="fileUrl" property="fileUrl" jdbcType="VARCHAR"/>
+        <result column="applyStatus" property="applyStatus" jdbcType="INTEGER"/>
+        <result column="createTime" property="createTime" jdbcType="DATE"/>
+        <result column="modifyTime" property="modifyTime" jdbcType="DATE"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findOneByCondition" parameterType="java.util.Map"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.ApplyRecord" >
+        select
+        <include refid="ApplyRecordColumnList"></include>
+        from D_APPLYRECORD
+        <where>
+            <if test="applyId != null" >
+                and applyId=#{applyId}
+            </if>
+            <if test="applicant != null" >
+                and applicant like concat(#{applicant}, '%')
+            </if>
+            <if test="applicantId != null" >
+                and applicantId=#{applicantId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllByCondition" parameterType="java.util.Map"
+            resultType="cn.sus.edu.partymemberdevelopment.entity.ApplyRecord" >
+        select
+        <include refid="ApplyRecordColumnList"></include>
+        from D_APPLYRECORD
+        <where>
+            <if test="applyId != null" >
+                and applyId=#{applyId}
+            </if>
+            <if test="applicantId != null" >
+                and applicantId=#{applicantId}
+            </if>
+            <if test="applicant != null" >
+                and applicant like concat(#{applicant}, '%')
+            </if>
+            <if test="beginTime != null">
+                and createTime >= to_date(#{beginTime}, 'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="endTime != null">
+                and to_date(#{endTime}, 'yyyy-MM-dd hh24:mi:ss') >= createTime
+            </if>
+        </where>
+    </select>
+
+
+    <!--useGeneratedKeys="true" keyProperty="userId"-->
+    <insert id="insertOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.ApplyRecord">
+        insert into D_APPLYRECORD (applyId,applicantId,applicant,fileUrl, applyStatus,createTime,creator)
+        values (#{applyId},#{applicantId},#{applicant},#{fileUrl},#{applyStatus},#{createTime},#{creator})
+    </insert>
+
+
+    <update id="updateOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.ApplyRecord">
+        update D_APPLYRECORD
+        <set>
+            <if test="applicant != null">
+                applicant=#{applicant},
+            </if>
+            <if test="applicantId != null">
+                applicantId=#{applicantId},
+            </if>
+            <if test="fileUrl != null">
+                fileUrl=#{fileUrl},
+            </if>
+            <if test="applyStatus != null">
+                applyStatus=#{applyStatus},
+            </if>
+            <if test="modifyTime != null">
+                modifyTime=#{modifyTime},
+            </if>
+            <if test="modifier != null">
+                modifier=#{modifier},
+            </if>
+        </set>
+        where applyId=#{applyId}
+    </update>
+
+    <delete id="deleteOne"  parameterType="java.lang.Long">
+        delete D_APPLYRECORD where applyId=#{applyId}
+    </delete>
+
+</mapper>
