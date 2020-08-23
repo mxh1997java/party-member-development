@@ -103,7 +103,7 @@
         hometown,departmentPosition,jobNumber,bornDate,joinGroupDate,applyJoinPartyDate,
         birthday,phoneNumber,joinJobDate,resume,familyMember,joinPartyDate,affiliatedBranch,partyPosition,
         creator,createTime)
-        values (#{studentId},#{userId},#{studentName},
+        values (SEQ_STUDENT_ID.nextval,#{userId},#{studentName},
         #{hometown},#{departmentPosition},#{jobNumber},#{bornDate},#{joinGroupDate},#{applyJoinPartyDate},
         #{birthday},#{phoneNumber},#{joinJobDate},#{resume},#{familyMember},#{joinPartyDate},#{affiliatedBranch},
         #{partyPosition},

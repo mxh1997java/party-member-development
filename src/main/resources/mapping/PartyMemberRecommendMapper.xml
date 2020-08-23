@@ -98,7 +98,7 @@
         creator
         )
         values (
-        #{recordId},
+        SEQ_PartyMemberRecommend_ID.nextval,
         #{applicant},
         #{sex},
         #{nation},

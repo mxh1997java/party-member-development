@@ -182,7 +182,7 @@
     <!--useGeneratedKeys="true" keyProperty="userId"-->
     <insert id="addTeacher" parameterType="cn.sus.edu.partymemberdevelopment.entity.Teacher">
         insert into D_USER_TO_TEACHER (TEACHER_ID,TEACHER_NAME,USER_ID,CREATOR,CREATE_TIME)
-        values (#{teacherId},#{teacherName},#{userId},#{creator},#{createTime})
+        values (SEQ_TEACHER_ID.nextval,#{teacherName},#{userId},#{creator},#{createTime})
     </insert>
 
 

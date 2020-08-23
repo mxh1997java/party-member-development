@@ -76,7 +76,7 @@
     <!--useGeneratedKeys="true" keyProperty="roleId"-->
     <insert id="addUserRole" parameterType="cn.sus.edu.partymemberdevelopment.entity.UserRole">
         insert into D_USER_ROLE (roleId, roleName,role_url,role_code,description,createTime,creator)
-        values (#{roleId}, #{roleName},#{url},#{code},#{description},#{createTime},#{creator})
+        values (SEQ_ROLE_ID.nextval, #{roleName},#{url},#{code},#{description},#{createTime},#{creator})
     </insert>
 
 

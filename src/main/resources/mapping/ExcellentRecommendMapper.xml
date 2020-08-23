@@ -138,7 +138,7 @@
         creator
         )
         values (
-        #{recordId},
+        SEQ_ExcellentRecommend_ID.nextval,
         #{applicant},
         #{sex},
         #{studentId},

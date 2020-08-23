@@ -94,7 +94,7 @@
         creator
         )
         values (
-        #{recordId},
+        SEQ_PartyBranchCharHistory_ID.nextval,
         #{partyBranchName},
         #{applicantName},
         #{sex},

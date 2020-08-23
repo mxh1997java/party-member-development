@@ -78,10 +78,9 @@
 
 
     <!--useGeneratedKeys="true" keyProperty="userId"-->
-    <insert id="addUser" parameterType="cn.sus.edu.partymemberdevelopment.entity.User"
-            >
+    <insert id="addUser" parameterType="cn.sus.edu.partymemberdevelopment.entity.User">
         insert into D_USER (USER_ID, USER_NAME,PASSWORD,USER_SEX,USER_AGE,USER_MAIL,USER_MOBILE,FIRST_LEVEL_ROLE,CREATOR,CREATE_TIME)
-        values (#{userId},
+        values (SEQ_USER_ID.nextval,
             #{username},
             #{password},
             #{userSex},
@@ -94,9 +93,10 @@
     </insert>
 
 
-    <insert id="batchInsert" parameterType="java.util.List">
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="false">
         insert into D_USER(USER_ID, USER_NAME,PASSWORD,USER_SEX,USER_AGE,USER_MAIL,USER_MOBILE,FIRST_LEVEL_ROLE,CREATOR,CREATE_TIME)
-        <foreach collection ="list" item="role" index= "index" separator="union all">
+        --select SEQ_USER_ID.NEXTVAL, A.* from (
+        <foreach collection="list" item="role" separator="union all">
             select
             #{role.userId},
             #{role.username},
@@ -109,7 +109,8 @@
             #{role.creator},
             #{role.createTime}
             from dual
-        </foreach >
+        </foreach>
+        --) A
     </insert>
 
 

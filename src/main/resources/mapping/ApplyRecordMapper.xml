@@ -76,7 +76,7 @@
     <!--useGeneratedKeys="true" keyProperty="userId"-->
     <insert id="insertOne" parameterType="cn.sus.edu.partymemberdevelopment.entity.ApplyRecord">
         insert into D_APPLYRECORD (applyId,applicantId,applicant,fileUrl, applyStatus,createTime,creator)
-        values (#{applyId},#{applicantId},#{applicant},#{fileUrl},#{applyStatus},#{createTime},#{creator})
+        values (SEQ_ApplyRecord_ID.nextval,#{applicantId},#{applicant},#{fileUrl},#{applyStatus},#{createTime},#{creator})
     </insert>
 
 

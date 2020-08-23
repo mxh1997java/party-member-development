@@ -29,7 +29,7 @@ public class UserTest {
     @Test
     public void addUser() {
         User user = new User();
-        user.setUserId(2l);
+        //user.setUserId(2l);
         user.setUsername("scott");
         user.setPassword("admin");
         user.setUserSex("男");
@@ -44,12 +44,12 @@ public class UserTest {
 
     @Test
     public void batchInsert() {
-        String[] userArray = {"郭小明","李小明","赵小明","钱小明","孙小明","马小明","张志伟"};
+        String[] userArray = {"郭小明01","李小明01","赵小明01","钱小明01","孙小明01","马小明01","张志伟01"};
         List<User> userList = new ArrayList<>(userArray.length);
         long id = 3;
         for(int i=0; i<userArray.length; i++) {
             User user = new User();
-            user.setUserId(id);
+            //user.setUserId(id);
             user.setUsername(userArray[i]);
             user.setMail("rsc@sus.edu.cn");
             user.setPhoneNumber("86-21-65508121");
