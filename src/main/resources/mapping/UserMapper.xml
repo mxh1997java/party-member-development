@@ -93,10 +93,10 @@
     </insert>
 
 
-    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="false">
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="false" keyProperty="USER_ID">
         insert into D_USER(USER_ID, USER_NAME,PASSWORD,USER_SEX,USER_AGE,USER_MAIL,USER_MOBILE,FIRST_LEVEL_ROLE,CREATOR,CREATE_TIME)
         --select SEQ_USER_ID.NEXTVAL, A.* from (
-        <foreach collection="list" item="role" separator="union all">
+        <foreach collection="list" item="role" index="index" separator="union all">
             select
             #{role.userId},
             #{role.username},
